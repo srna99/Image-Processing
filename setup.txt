@@ -1,2 +1,4 @@
 /Users/serena/PycharmProjects/cmsc-630-project/Cancerous cell smears
-histogram average
+color_conversion gray
+histogram generate
+histogram quantize 8

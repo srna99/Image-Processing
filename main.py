@@ -48,7 +48,7 @@ if __name__ == "__main__":
         mod_img.show()
 
         img_count += 1
-        if img_count > 1:
+        if img_count > 0:
             break
 
     # print(img_count)
