@@ -1,5 +1,4 @@
 import os
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -47,7 +46,7 @@ def equalize_histogram(img):
     hist = generate_histogram(img)
 
     norm_hist = hist / num_pixels
-    equ_hist = np.floor(255 * np.cumsum(norm_hist)).astype('uint8')
+    equ_hist = np.floor(255 * np.cumsum(norm_hist)).astype(np.uint8)
 
     equ_img = equ_hist[img]
     equ_img = equ_img.reshape(img.shape)
@@ -58,7 +57,7 @@ def equalize_histogram(img):
 def quantize_histogram(img, levels):
     delta = 256 / levels
     quan_img = delta * np.floor(img / delta) + delta / 2
-    quan_img = np.reshape(quan_img, img.shape).astype('uint8')
+    quan_img = np.reshape(quan_img, img.shape).astype(np.uint8)
 
     return quan_img
 

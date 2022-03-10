@@ -2,6 +2,7 @@ import re
 
 import color_conversion
 import histogram
+import noise
 
 
 def execute_function(func, img, img_name):
@@ -30,5 +31,10 @@ def execute_function(func, img, img_name):
             histogram.save_histogram(img_hist, img_name, 'quan_hist')
 
             return quan_img
+    elif func[0] == 'noise':
+        if func[1] == 'salt_pepper':
+            return noise.add_salt_pepper_noise(img, float(func[2]))
+        elif func[1] == 'gaussian':
+            return noise.add_gaussian_noise(img, float(func[2]), float(func[3]))
 
     return img

@@ -1,4 +1,3 @@
 /Users/serena/PycharmProjects/cmsc-630-project/Cancerous cell smears
-color_conversion gray
-histogram generate
-histogram quantize 8
+noise salt_pepper 0.05
+noise gaussian 0 20

@@ -35,10 +35,12 @@ if __name__ == "__main__":
 
             with Image.open(file) as ori_img:
                 ori_img.show()
-                copy_img = np.array(ori_img)
+                gray_img = np.round(np.mean(np.array(ori_img.copy()), axis=2))
         except IOError as e:
             print("Error - ", filepath, ":", e)
             continue
+
+        copy_img = np.uint8(gray_img)
 
         for func in functions:
             copy_img = image_operations.execute_function(func, copy_img, filename)
