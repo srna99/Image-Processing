@@ -31,10 +31,8 @@ if __name__ == "__main__":
     for file in glob.glob(os.path.join(filepath, '*.BMP')):
         try:
             filename = Path(file).stem
-            print(filename)
 
             with Image.open(file) as ori_img:
-                ori_img.show()
                 gray_img = np.round(np.mean(np.array(ori_img.copy()), axis=2))
         except IOError as e:
             print("Error - ", filepath, ":", e)
@@ -42,15 +40,13 @@ if __name__ == "__main__":
 
         copy_img = np.uint8(gray_img)
 
-        for func in functions:
-            copy_img = image_operations.execute_function(func, copy_img, filename)
+        copy_img = image_operations.run_functions(copy_img, functions, filename)
 
         mod_img = Image.fromarray(copy_img)
         mod_img.save(os.path.join('output', filename + '_mod.BMP'))
-        mod_img.show()
 
         img_count += 1
-        if img_count > 0:
+        if img_count > 1:
             break
 
-    # print(img_count)
+    image_operations.display_statistics()

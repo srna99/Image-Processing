@@ -59,7 +59,9 @@ def quantize_histogram(img, levels):
     quan_img = delta * np.floor(img / delta) + delta / 2
     quan_img = np.reshape(quan_img, img.shape).astype(np.uint8)
 
-    return quan_img
+    msqe = calculate_msqe(img, quan_img)
+
+    return quan_img, msqe
 
 
 def save_histogram(hist, img_name, mode):
@@ -89,4 +91,8 @@ def save_histogram(hist, img_name, mode):
             plt.bar(np.arange(256), hist[:, channel], color=color, alpha=0.4)
 
     plt.savefig(os.path.join('output', img_name + '_' + mode + '.jpg'))
-    plt.show()
+    # plt.show()
+
+
+def calculate_msqe(img, quan_img):
+    return np.mean(np.square(img - quan_img))
