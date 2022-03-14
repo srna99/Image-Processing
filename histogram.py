@@ -91,7 +91,7 @@ def save_histogram(hist, img_name, mode):
             plt.bar(np.arange(256), hist[:, channel], color=color, alpha=0.4)
 
     plt.savefig(os.path.join('output', img_name + '_' + mode + '.jpg'))
-    # plt.show()
+    plt.close()
 
 
 def calculate_msqe(img, quan_img):

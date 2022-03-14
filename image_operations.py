@@ -123,8 +123,8 @@ def add_time(time, func):
         total_time[func] += time
 
 
-def display_statistics():
-    print('\n------------- Statistics -------------')
+def display_stats():
+    print('\n------------- Stats -------------')
     print('Total batch time for each process:')
 
     for process, time in total_time.items():
