@@ -1,10 +1,2 @@
 Cancerous cell smears
-histogram generate
-histogram average
-histogram quantize 16
-histogram equalize
-noise salt_pepper 0.05
-noise gaussian 0 10
-filter linear 3 0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11,0.11
-filter median 3 1,2,1,2,3,2,1,2,1
-color_conversion red
+edge prewitt

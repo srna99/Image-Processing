@@ -7,6 +7,9 @@ import color_conversion
 import histogram
 import noise
 import filter
+import edge_detection
+import morphological_filters
+import segmentation
 
 
 total_time = {}
@@ -107,6 +110,33 @@ def execute_function(func, img, img_name):
             add_time(timer() - start_time, 'Median Filter')
 
             return med_img
+    elif func[0] == 'edge':
+        if func[1] == 'prewitt':
+            start_time = timer()
+
+            edge_img = edge_detection.prewitt_operator(img)
+
+            add_time(timer() - start_time, 'Prewitt Edge Operator')
+
+            return edge_img
+        elif func[1] == 'sobel':
+            start_time = timer()
+
+            edge_img = edge_detection.sobel_operator(img)
+
+            add_time(timer() - start_time, 'Sobel Edge Operator')
+
+            return edge_img
+    elif func[0] == 'morph':
+        if func[1] == 'dilation':
+            pass
+        elif func[1] == 'erosion':
+            pass
+    elif func[0] == 'segmentation':
+        if func[1] == 'histo_thresholding':
+            pass
+        elif func[1] == 'clustering':
+            pass
 
     return img
 

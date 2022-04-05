@@ -27,6 +27,7 @@ if __name__ == "__main__":
 
     clean_output()
 
+    img_count = 0
     for file in glob.glob(os.path.join(filepath, '*.BMP')):
         try:
             filename = Path(file).stem
@@ -43,5 +44,9 @@ if __name__ == "__main__":
 
         mod_img = Image.fromarray(copy_img)
         mod_img.save(os.path.join('output', filename + '_mod.BMP'))
+
+        img_count += 1
+        if img_count > 0:
+            break
 
     image_operations.display_stats()
