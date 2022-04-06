@@ -129,9 +129,21 @@ def execute_function(func, img, img_name):
             return edge_img
     elif func[0] == 'morph':
         if func[1] == 'dilation':
-            pass
+            start_time = timer()
+
+            dil_img = morphological_filters.dilation(img, int(func[2]))
+
+            add_time(timer() - start_time, 'Dilation')
+
+            return dil_img
         elif func[1] == 'erosion':
-            pass
+            start_time = timer()
+
+            ero_img = morphological_filters.erosion(img, int(func[2]))
+
+            add_time(timer() - start_time, 'Erosion')
+
+            return ero_img
     elif func[0] == 'segmentation':
         if func[1] == 'histo_thresholding':
             pass

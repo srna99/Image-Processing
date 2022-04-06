@@ -1,2 +1,2 @@
 Cancerous cell smears
-edge prewitt
+morph erosion 3
