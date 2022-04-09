@@ -15,12 +15,12 @@ def generate_histogram(img):
     if img.ndim == 2:
         hist = np.zeros(256)
 
-        for l in range(0, 256):
+        for l in range(256):
             hist[l] = np.sum(np.sum(img == l))
     else:
         hist = np.zeros((256, 3))
 
-        for channel in range(0, 3):
+        for channel in range(3):
             for l in range(0, 256):
                 hist[l, channel] = np.sum(np.sum(img[:, :, channel] == l))
 
@@ -64,6 +64,39 @@ def quantize_histogram(img, levels):
     return quan_img, msqe
 
 
+def segment_histogram(img):
+    hist = generate_histogram(img)
+
+    norm_hist = hist / num_pixels
+    bins = np.arange(256)
+
+    threshold = 0
+    min_within_group_variance = float('inf')
+
+    for l in range(256):
+        obj_prior_prob = np.sum(norm_hist[:l])
+        bg_prior_prob = np.sum(norm_hist[l:])
+
+        if obj_prior_prob == 0 or bg_prior_prob == 0:
+            continue
+
+        obj_mean = np.sum(np.multiply(norm_hist[:l], bins[:l])) / obj_prior_prob
+        bg_mean = np.sum(np.multiply(norm_hist[l:], bins[l:])) / bg_prior_prob
+
+        obj_variance = np.sum(((bins[:l] - obj_mean) ** 2) * norm_hist[:l]) / obj_prior_prob
+        bg_variance = np.sum(((bins[l:] - bg_mean) ** 2) * norm_hist[l:]) / bg_prior_prob
+
+        within_group_variance = (obj_variance ** 2) * obj_prior_prob + (bg_variance ** 2) * bg_prior_prob
+
+        if within_group_variance < min_within_group_variance:
+            min_within_group_variance = within_group_variance
+            threshold = l
+
+    seg_img = convert_binary_image(img, threshold)
+
+    return seg_img
+
+
 def save_histogram(hist, img_name, mode):
     plt.clf()
 
@@ -81,7 +114,7 @@ def save_histogram(hist, img_name, mode):
             plt.ylim([0, np.amax(hist) * 1.1])
             set_ylim = True
 
-        for channel, color in zip(range(0, 3), ['red', 'green', 'blue']):
+        for channel, color in zip(range(3), ['red', 'green', 'blue']):
             if hist[0, channel] == num_pixels:
                 continue
 
@@ -96,3 +129,10 @@ def save_histogram(hist, img_name, mode):
 
 def calculate_msqe(img, quan_img):
     return np.mean(np.square(img - quan_img))
+
+
+def convert_binary_image(img, threshold):
+    bin_img = np.where(img <= threshold, 255, img)
+    final_bin_img = np.where(img > threshold, 0, bin_img)
+
+    return final_bin_img

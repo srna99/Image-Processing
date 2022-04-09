@@ -1,2 +1,2 @@
-Cancerous cell smears
-morph erosion 3
+x
+segmentation kmeans 5

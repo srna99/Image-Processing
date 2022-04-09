@@ -9,7 +9,7 @@ import noise
 import filter
 import edge_detection
 import morphological_filters
-import segmentation
+import clustering
 
 
 total_time = {}
@@ -128,10 +128,12 @@ def execute_function(func, img, img_name):
 
             return edge_img
     elif func[0] == 'morph':
+        bin_img = histogram.segment_histogram(img)
+
         if func[1] == 'dilation':
             start_time = timer()
 
-            dil_img = morphological_filters.dilation(img, int(func[2]))
+            dil_img = morphological_filters.dilation(bin_img, int(func[2]))
 
             add_time(timer() - start_time, 'Dilation')
 
@@ -139,16 +141,28 @@ def execute_function(func, img, img_name):
         elif func[1] == 'erosion':
             start_time = timer()
 
-            ero_img = morphological_filters.erosion(img, int(func[2]))
+            ero_img = morphological_filters.erosion(bin_img, int(func[2]))
 
             add_time(timer() - start_time, 'Erosion')
 
             return ero_img
     elif func[0] == 'segmentation':
         if func[1] == 'histo_thresholding':
-            pass
-        elif func[1] == 'clustering':
-            pass
+            start_time = timer()
+
+            thres_img = histogram.segment_histogram(img)
+
+            add_time(timer() - start_time, 'Histogram Thresholding')
+
+            return thres_img
+        elif func[1] == 'kmeans':
+            start_time = timer()
+
+            km_img = clustering.kmeans(img, int(func[2]))
+
+            add_time(timer() - start_time, 'KMeans Clustering')
+
+            return km_img
 
     return img
 
