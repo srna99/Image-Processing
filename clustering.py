@@ -7,8 +7,6 @@ def kmeans(img, k):
     centroids = np.random.randint(256, size=k)
     clusters = []
 
-    print(centroids)
-
     iteration = 0
     finished = False
 
@@ -18,7 +16,6 @@ def kmeans(img, k):
         centroids, finished = calculate_cluster_means(flat_img, k, centroids, clusters)
 
         iteration += 1
-        print(iteration, centroids)
 
     km_img = update_img(flat_img, centroids, clusters)
     km_img = km_img.reshape(img.shape)
