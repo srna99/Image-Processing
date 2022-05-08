@@ -1,2 +1,2 @@
-x
-segmentation kmeans 5
+input
+knn

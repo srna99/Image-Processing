@@ -7,6 +7,7 @@ from pathlib import Path
 from PIL import Image
 
 import image_operations
+import feature_extraction
 
 
 def clean_output():
@@ -39,9 +40,15 @@ if __name__ == "__main__":
 
         copy_img = np.uint8(gray_img)
 
-        copy_img = image_operations.run_functions(copy_img, functions, filename)
+        if functions == [['knn']]:
+            image_operations.run_functions(copy_img, functions, filename)
+        else:
+            copy_img = image_operations.run_functions(copy_img, functions, filename)
 
-        mod_img = Image.fromarray(copy_img)
-        mod_img.save(os.path.join('output', filename + '_mod.BMP'))
+            mod_img = Image.fromarray(copy_img)
+            mod_img.save(os.path.join('output', filename + '_mod.BMP'))
+
+    if functions == [['knn']]:
+        feature_extraction.save_training_set()
 
     image_operations.display_stats()

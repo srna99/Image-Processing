@@ -10,6 +10,8 @@ import filter
 import edge_detection
 import morphological_filters
 import clustering
+import feature_extraction
+import cross_validation
 
 
 total_time = {}
@@ -163,6 +165,16 @@ def execute_function(func, img, img_name):
             add_time(timer() - start_time, 'KMeans Clustering')
 
             return km_img
+    elif func[0] == 'knn':
+        img_class = re.sub(r'\d+', '', img_name)
+
+        bin_img = histogram.segment_histogram(img)
+        bin_img = morphological_filters.erosion(bin_img, 3)
+        bin_img = morphological_filters.dilation(bin_img, 3)
+
+        bin_hist = histogram.generate_histogram(bin_img)
+
+        feature_extraction.extract_features(bin_hist, img_class)
 
     return img
 
