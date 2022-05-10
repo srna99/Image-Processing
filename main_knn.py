@@ -11,4 +11,6 @@ if __name__ == '__main__':
 
     dataset = np.loadtxt(dataset_path, delimiter=',')
 
-    knn.cross_validation_knn(dataset, k)
+    accuracy = knn.cross_validation_knn(dataset, k)
+
+    print('Accuracy of KNN with {} neighbors: {:.2f}%'.format(k, accuracy * 100))
