@@ -2,6 +2,7 @@ import os
 import numpy as np
 
 
+labels_dict = {'cyl': 0, 'inter': 1, 'let': 2, 'mod': 3, 'para': 4, 'super': 5, 'svar': 6}
 training_set = []
 total_pixels = 0
 
@@ -16,7 +17,7 @@ def extract_features(hist, label):
                 calculate_mean(bin_hist),
                 calculate_standard_deviation(bin_hist),
                 calculate_entropy(bin_hist),
-                label]
+                labels_dict[label]]
 
     training_set.append(features)
 
@@ -30,7 +31,7 @@ def calculate_mean(hist):
 
     mean = pixel_sum / total_pixels
 
-    return round(mean, 4)
+    return mean
 
 
 def calculate_standard_deviation(hist):
@@ -44,7 +45,7 @@ def calculate_standard_deviation(hist):
     variance = pixel_sum / total_pixels
     std = np.math.sqrt(variance)
 
-    return round(std, 4)
+    return std
 
 
 def calculate_entropy(hist):
@@ -52,9 +53,13 @@ def calculate_entropy(hist):
 
     entropy = -np.sum(np.multiply(norm_hist, np.log(norm_hist)))
 
-    return round(entropy, 4)
+    return entropy
 
 
 def save_training_set():
+    if not os.path.isdir('dataset'):
+        os.makedirs('dataset')
+
     dataset = np.array(training_set)
-    np.savetxt(os.path.join('output', 'data.csv'), dataset, delimiter=',', fmt='%s')
+
+    np.savetxt(os.path.join('dataset', 'data.csv'), dataset, delimiter=',', fmt='%1.4f')
